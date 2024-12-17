@@ -1,61 +1,73 @@
 'use client'
 
 import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
 export default function CodeSubmissionForm() {
-  const [language, setLanguage] = useState('javascript') // Default language
-  const [code, setCode] = useState('')
+    const [language, setLanguage] = useState('javascript') // Default language
+    const [code, setCode] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Language:', language)
-    console.log('Code:', code)
-    // You can send the data to your server or handle it as needed
-  }
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        console.log('Language:', language)
+        console.log('Code:', code)
+        // You can send the data to your server or handle it as needed
+    }
 
-  return (
-    <div className="w-full max-w-2xl mx-auto py-8">
-      <h1 className="text-2xl font-semibold mb-4">Submit Your Code</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Language selection */}
-        <div>
-          <label htmlFor="language" className="block text-sm font-medium text-gray-700">
-            Select Code Language
-          </label>
-          <select
-            id="language"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md"
-          >
-            <option value="python">Python</option>
-            <option value="cpp">C++</option>
-          </select>
+    return (
+        <div className="w-full max-w-2xl mx-auto py-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-2xl font-semibold">Submit Your Code</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <Label htmlFor="language" className="text-sm font-medium">
+                                Select Code Language
+                            </Label>
+                            
+                            <Select
+                                value={language}
+                                onValueChange={(value) => setLanguage(value)}
+                            >
+                                <SelectTrigger className="mt-2">
+                                    <SelectValue placeholder="Select a language" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="python">Python</SelectItem>
+                                    <SelectItem value="cpp">C++</SelectItem>
+                                    <SelectItem value="javascript">JavaScript</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        {/* Code textarea */}
+                        <div>
+                            <Label htmlFor="code" className="text-sm font-medium">
+                                Write Your Code
+                            </Label>
+                            <Textarea
+                                id="code"
+                                value={code}
+                                onChange={(e) => setCode(e.target.value)}
+                                rows={10}
+                                placeholder="Write your code here..."
+                                className="mt-2"
+                            />
+                        </div>
+
+                        {/* Submit button */}
+                        <Button type="submit" className="w-full">
+                            Submit Code
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
-
-        {/* Code textarea */}
-        <div>
-          <label htmlFor="code" className="block text-sm font-medium text-gray-700">
-            Write Your Code
-          </label>
-          <textarea
-            id="code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            rows={10}
-            className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-md"
-            placeholder="Write your code here..."
-          />
-        </div>
-
-        {/* Submit button */}
-        <button
-          type="submit"
-          className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-        >
-          Submit Code
-        </button>
-      </form>
-    </div>
-  )
+    )
 }
